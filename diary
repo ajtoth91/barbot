@@ -1,0 +1,26 @@
+26-08: Created barbot_venv structure
+  Created venv. Access using `. venv/bin/activate`
+  /Flask created for Flask project.
+27-08: Created serv.py as the primary python file for Flask.
+  Created /templates/admin_console.html for the layout of the admin page
+  Timezone and Country list populate. Selected values are stored to a file, and will be displayed when the page is loaded. Legal BAC loads.
+  Current issue having the radio buttons automatically select as what was saved.  Spirits table inop 
+28-08:
+  Created pump.py. Defines the PUMP and BOTTLE class.
+  Got distracted. Sainsmart 8CH SSR Relay modules. Two of them would max out raspi GPIO.
+    Check out raspi IO extenders to get more IO. Up to 70 or so.
+  To do:
+    Create a list of BOTTLEs
+    Create a function that would dispense a bottle, and update the entry/ies in the list
+    Create a cocktaildB, with ingredients
+    Create a functional cocktail list that goes through the BOTTLE list and the cocktaildB and is a list of the things we can create
+    Create a class that defines a cocktail
+03-09:
+  Moved lists into their own folder; try to read lists from a file as much as possible
+  When resuming Flask development, use the following commands
+    flask run
+    export FLASK_DEBUG=1
+  To do: 
+  1. Fix templates/admin_page.html for the names of the form fields for the 
+  2. Create a way to save these settings from the html page
+  3. Ensure that if a pumps.pkl file exists, to open it and load it

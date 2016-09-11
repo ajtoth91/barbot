@@ -1,0 +1,95 @@
+<!doctyle html>
+<title>Admin Console</title>
+<form action="/admin" method="POST">
+<h2>Location</h2>
+  <BR> Time Zone <select name="Time_Zone">
+    {% for area in time_zones %}
+      {% if area==selected_timezone : %}
+      <option value="{{ area }}" selected>{{ area }} </option>
+      {% else %}
+      <option value="{{ area }}">{{ area }} </option>
+      {% endif %}
+    {% endfor %}
+    </select>
+  <BR>Country  <select name="Country">
+    {% for country in bac_list %}
+      {% if country==selected_country : %}
+      <option value="{{ country }}" selected>{{ country }} </option>
+      {% else: %}
+      <option value="{{ country }}">{{ country }} </option>
+      {% endif %}
+    {% endfor %}
+    </select>
+    Legal BAC: {{ legal_bac }}
+<BR><BR>
+<h2>Use</h2>
+  {% if is_Commercial=='True': %}
+  <BR><label><input type="radio" name="is_Commercial" value=False required>Personal</label>
+  <BR><label><input type="radio" name="is_Commercial" value=True checked required>Commercial</label>
+  {% else %}
+  <BR><label><input type="radio" name="is_Commercial" value=False checked>Personal</label>
+  <BR><label><input type="radio" name="is_Commercial" value=True>Commercial</label>
+  {% endif %}
+<BR><BR>
+<h2>Spirits</h2>
+  <table>
+    <tr>
+      <td> </td>
+      <td>Pump</td>
+      <td>Spirit</td>
+      <td>Name</td>
+      <td>Bottle size</td>
+      <td>Est. Amt Left</td>
+      <td>ABV</td>
+      {% if is_Commercial=='True': %}<td>Price/shot</td>{% endif %}
+    </tr>
+    {% for pump in pump_list %}
+    <tr>
+      <td>EDIT</td><!-- This should be a popup for allowing editing -->
+      <td>Pump</td>
+      <!--Begin Spirit Cell-->
+      <td><select name=Spirit{{ pump_list.index(pump) }} >
+        {% for ingredient in list_pourable_all %}
+         {% if ingredient==pump.BOTTLE.spirit_type : %}
+          <option value="{{ ingredient }}" selected>{{ ingredient }} </option>
+         {% else %}
+          <option value="{{ ingredient }}">{{ ingredient }} </option>
+         {% endif %}
+        {% endfor %}
+        </select></td>
+      <!--Begin Name Cell-->
+      <td><input type="text" name=Name{{ pump_list.index(pump) }} value="{{ pump.BOTTLE.name_of_bottle }}"></td>
+      <!--Begin Size Cell-->
+      <td><select name=Size{{ pump_list.index(pump) }}>
+        <option value=750 
+           {% if pump.BOTTLE.size_of_bottle|int()==750|int() : %} selected {% endif %}
+           > 750mL </option>
+        <option value=1500 
+           {% if pump.BOTTLE.size_of_bottle|int()==1500|int() : %} selected {% endif %}
+           > 1.5L </option></select></td>
+      <!--Amount Left Cell-->
+      <td><input type="text" name=Amount_left{{ pump_list.index(pump) }} maxlength=4 size=4 value={{ pump.BOTTLE.amount_left }} ></td>
+      <td><input type="text" name=ABV{{ pump_list.index(pump) }} maxlength=4 size=4 value={{ pump.BOTTLE.ABV }} ></td>
+      
+       <!--Begin Price/shot Cell-->
+      {% if is_Commercial=='True': %}
+      <td><input type="text" name=Price{{ pump_list.index(pump) }} maxlength=6 size=6 value={{ pump.BOTTLE.price_shot }} ></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </table>
+  <h2>Garnishes</h2>
+  <table>
+  {% for garnish in garnish_list %}
+    {{ loop.cycle('<tr><td>','<td>','<td>','<td>','<td>')|safe }}
+    <label><input type="checkbox" name='garnishes' value='{{ garnish }}'
+    {% for selected in selected_garnishes%}
+             {% if garnish==selected %} checked {% endif %}
+    {% endfor %}
+    >{{ garnish }}</label>
+    {{ loop.cycle('</td>','</td>','</td>','</td>','</td></tr>')|safe }}
+
+  {% endfor %}
+  </table>
+<BR> <button type="submit" name="save_config">Save</button>
+</form>
