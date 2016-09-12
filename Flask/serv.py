@@ -53,8 +53,10 @@ def save_config():
 
   save_pumps(pump_list)
 
-  print ingredient_available('Vodka') 
-  print ingredient_available('Cherry') 
+#  print ingredient_available('Vodka') 
+#  print ingredient_available('Cherry')
+#  print cocktail_available({'Rum, Generic':.2,'Cherry':.1}) 
+
   return render_template('admin_console.html',
        time_zones=pytz.common_timezones,
        bac_list=bac_list,

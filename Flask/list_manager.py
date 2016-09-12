@@ -57,11 +57,30 @@ def load_pumps():
 def ingredient_available(ingred):
   #Goes through Garnish list and Pumps list to see if available.
   for garnish in load_garnishes():
-    print "Checking if " + str(ingred) + " is " + str(garnish)
+#    print "Checking if " + str(ingred) + " is " + str(garnish)
     if ingred == garnish:
       return True
   for i in load_pumps():
-    print "Checking if " + str(ingred) + " is " + str(i.BOTTLE.spirit_type)
+#    print "Checking if " + str(ingred) + " is " + str(i.BOTTLE.spirit_type)
     if ingred == i.BOTTLE.spirit_type:
       return True
   return False
+
+def cocktail_available(ingredients_dict):
+  #Each cocktail has a list of ingredients. Return True if they're all available. Return False if at least one is misisng.
+  for cocktail_ingredient, ingredient_amount in ingredients_dict.iteritems():
+    print ingredient_available(cocktail_ingredient)
+    if not ingredient_available(cocktail_ingredient):
+      print 'We found that ' + str(cocktail_ingredient) + ' was not available'
+      return False #The ingredient for a cocktail is not available, skip it.
+  return True
+
+def create_cocktail_list():
+  available_cocktail_list=[]
+  #Go through the list of every cocktail that we know about
+  for cocktail, cocktail_ingredients_dict in cocktail_list.iteritems():
+   #For each cocktail, it has a dict of ingredients.
+   if cocktail_available(cocktail_ingredients_dict):
+     available_cocktail_list.append(cocktail)
+   print available_cocktail_list #this should just be a list of keys to the larger cocktail list
+  return available_cocktail_list  
