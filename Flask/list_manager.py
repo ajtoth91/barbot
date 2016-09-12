@@ -45,4 +45,23 @@ def create_usable_cocktails():
       if match == len(cocktail_ingredients)-1:
         print "add " + str(cocktail_name) + " to usable cocktails"
 
+def load_pumps():
+  file_pump=open('./lists/pumps.cfg','r')
+  with file_pump as input:
+    read_pump_list = pickle.load(input)
+  file_pump.close()
+  return read_pump_list
 
+
+
+def ingredient_available(ingred):
+  #Goes through Garnish list and Pumps list to see if available.
+  for garnish in load_garnishes():
+    print "Checking if " + str(ingred) + " is " + str(garnish)
+    if ingred == garnish:
+      return True
+  for i in load_pumps():
+    print "Checking if " + str(ingred) + " is " + str(i.BOTTLE.spirit_type)
+    if ingred == i.BOTTLE.spirit_type:
+      return True
+  return False

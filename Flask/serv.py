@@ -51,7 +51,10 @@ def save_config():
  
   print "UTC Offset: " +  datetime.datetime.now(pytz.timezone(request.form['Time_Zone'])).strftime('%z')
 
-  save_pumps(pump_list) 
+  save_pumps(pump_list)
+
+  print ingredient_available('Vodka') 
+  print ingredient_available('Cherry') 
   return render_template('admin_console.html',
        time_zones=pytz.common_timezones,
        bac_list=bac_list,
@@ -97,4 +100,4 @@ def admin():
 
 @app.route('/client')
 def client():
- return
+ return is_ingredient_available('Vodka')
